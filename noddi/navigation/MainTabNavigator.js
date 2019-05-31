@@ -6,6 +6,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import ScanScreen from '../screens/ScanScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -30,11 +31,25 @@ const LinksStack = createStackNavigator({
 });
 
 LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+  tabBarLabel: 'Scanner',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+      name={Platform.OS === 'ios' ? 'ios-barcode' : 'md-barcode'}
+    />
+  ),
+};
+
+const ScanStack = createStackNavigator({
+  Scanner: ScanScreen,
+});
+
+ScanStack.navigationOptions = {
+  tabBarLabel: 'Scanner',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? 'ios-barcode' : 'md-barcode'}
     />
   ),
 };
@@ -55,6 +70,6 @@ SettingsStack.navigationOptions = {
 
 export default createBottomTabNavigator({
   HomeStack,
-  LinksStack,
+  ScanStack,
   SettingsStack,
 });

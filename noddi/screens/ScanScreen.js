@@ -46,14 +46,6 @@ export default class ScanScreen extends React.Component {
   }
 
   getFood = async (data) => {
-    const ref = db.ref('foods');
-    let match = false;
-    let productAllergies = {};
-    let foodName = "";
-    const userAllergies = this.state.userAllergies;
-
-    console.log(data);
-
     await fetch("http://10.0.0.4/api/foods/" + data)
     .then(response => response.json())
     .then((responseJson)=> {

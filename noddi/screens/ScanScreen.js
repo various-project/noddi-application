@@ -63,46 +63,7 @@ export default class ScanScreen extends React.Component {
     })
     .catch(error=>console.log(error + "Husk og oppdatere ip"))
   }
-/*
-  getFood = (data) => {
-    const ref = db.ref('foods');
-    let match = false;
-    let productAllergies = {};
-    let foodName = "";
-    const userAllergies = this.state.userAllergies;
 
-    ref.once("value", function(snapshot) {
-      snapshot.forEach(function (childSnap) {
-        if(childSnap.key.toString() === data.toString()){
-          foodName = childSnap.child("navn").val()
-          console.log(childSnap.child("allergies").val());
-          productAllergies = childSnap.child("allergies").val();
-          match = true;
-        }
-      })
-      if (match) {
-        let allergic = false;
-        const entries = Object.entries(productAllergies)
-        for (const [allergen, boolean] of entries) {
-          if (boolean) {
-            console.log("This have " + allergen);
-            console.log("User is allergic: " + userAllergies[allergen]);
-            if (userAllergies[allergen]) {
-              allergic = true;
-            }
-          }
-        }
-        if (allergic) {
-          alert("Buhu you are allergic to " + foodName);
-        }else {
-          alert("This is safe to eat")
-        }
-      } else {
-        alert("No Match")
-      }
-    })
-  }
-*/
   render() {
     const { hasCameraPermission, scanned } = this.state;
 

@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Button,
 } from 'react-native';
 import { WebBrowser } from 'expo';
 
@@ -16,6 +17,21 @@ export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
+
+  state = {
+    data: {}
+  }
+
+  handleFetch = async() => {
+    await fetch("http://10.0.0.4/api/foods/")
+    .then(response => response.json())
+    .then((responseJson)=> {
+      this.setState({
+       data: responseJson
+      })
+    })
+    .catch(error=>console.log(error)) //to catch the errors if any
+  }
 
   render() {
     return (
@@ -44,6 +60,14 @@ export default class HomeScreen extends React.Component {
               An application for analysing allergen's in food and drink.
             </Text>
           </View>
+          <Button
+            title={'Tap to fetch'}
+            onPress={this.handleFetch}
+          />
+          <Button
+            title={'Tap to get data'}
+            onPress={() => console.log(this.state.data)}
+          />
 
         </ScrollView>
 

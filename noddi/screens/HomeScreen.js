@@ -30,7 +30,7 @@ export default class HomeScreen extends React.Component {
        data: responseJson
       })
     })
-    .catch(error=>console.log(error)) //to catch the errors if any
+    .catch(error=>console.log(error + "Husk og oppdatere ip")) //to catch the errors if any
   }
 
   render() {

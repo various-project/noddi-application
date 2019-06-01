@@ -2,6 +2,7 @@ import React from 'react';
 import { ScrollView, Text, View, StyleSheet, Button } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
 import { Constants, Permissions, BarCodeScanner } from 'expo';
+import {db} from '../db/db';
 
 export default class ScanScreen extends React.Component {
   static navigationOptions = {
@@ -16,6 +17,23 @@ export default class ScanScreen extends React.Component {
   async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
+  }
+  getFood = (data) => {
+    const ref = db.ref('foods');
+    let match = false;
+
+    ref.once("value", function(snapshot) {
+      snapshot.forEach(function (childSnap) {
+        if(childSnap.key.toString() === data.toString()){
+          const foodName = childSnap.child("navn").val()
+          alert("Woho" + foodName + "matched");
+          match = true;
+        }
+      })
+      if (!match) {
+        alert("No Match")
+      }
+    })
   }
 
   render() {
@@ -49,7 +67,9 @@ export default class ScanScreen extends React.Component {
   }
   handleBarCodeScanned = ({ type, data }) => {
    this.setState({ scanned: true });
-   alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+   const barCode = "0" + data;
+   this.getFood(barCode);
+   //alert(`Bar code with type ${type} and data ${data} has been scanned!`);
  };
 }
 

@@ -16,7 +16,8 @@ export default class ScanScreen extends React.Component {
     userAllergies: {
       lactose: false,
       gluten: false,
-    }
+    },
+    data: {}
   };
 
   componentWillMount() {
@@ -44,69 +45,15 @@ export default class ScanScreen extends React.Component {
     }
   }
 
-  asyncGetData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('allergies');
-      if (value !== null) {
-        data = JSON.parse(value)
-        console.log(data.gluten);
-        return data;
-      }
-    } catch (error) {
-      // Error retrieving data
-    }
-  }
-
-  matchAllergies = (allergies) => {
-    const userAllergies = this.state.userAllergies;
-    const productAllergies = allergies;
-    const keys = Object.keys(productAllergies)
-    for (const key of keys) {
-      console.log(key)
-    }
-
-  }
-
-  getFood = (data) => {
-    const ref = db.ref('foods');
-    let match = false;
-    let productAllergies = {};
-    let foodName = "";
-    const userAllergies = this.state.userAllergies;
-
-    ref.once("value", function(snapshot) {
-      snapshot.forEach(function (childSnap) {
-        if(childSnap.key.toString() === data.toString()){
-          foodName = childSnap.child("navn").val()
-          console.log(childSnap.child("allergies").val().lactose);
-          productAllergies = childSnap.child("allergies").val();
-          match = true;
-        }
+  getFood = async (data) => {
+    await fetch("http://10.0.0.4/api/foods/" + data)
+    .then(response => response.json())
+    .then((responseJson)=> {
+      this.setState({
+       data: responseJson
       })
-      if (match) {
-        console.log("match");
-        //this.matchAllergies(allergies);
-        let allergic = false;
-        const entries = Object.entries(productAllergies)
-        for (const [allergen, boolean] of entries) {
-          if (boolean) {
-            console.log("This have " + allergen);
-            console.log("User is allergic: " + userAllergies[allergen]);
-            if (userAllergies[allergen]) {
-              allergic = true;
-            }
-          }
-        }
-        if (allergic) {
-          alert("Buhu you are allergic to " + foodName);
-        }else {
-          alert("This is safe to eat")
-        }
-      } else {
-        alert("No Match")
-      }
     })
-
+    .catch(error=>console.log(error + "Husk og oppdatere ip"))
   }
 
   render() {
@@ -138,12 +85,38 @@ export default class ScanScreen extends React.Component {
       </View>
     );
   }
-  handleBarCodeScanned = ({ type, data }) => {
+  handleBarCodeScanned = async ({ type, data }) => {
    this.setState({ scanned: true });
-   const barCode = "0" + data;
-   this.getFood(barCode);
-   //alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+   const barCode = data;
+   await this.getFood(barCode)
+   .then(this.load())
+   .then(() => this.matchAllergy(this.state.data))
+
  };
+
+ matchAllergy = (data) => {
+   if (data == null) {
+     alert("No Match..")
+   }else {
+     let allergic = false;
+     const productAllergies = data["allergies"];
+     const userAllergies = this.state.userAllergies;
+     const entries = Object.entries(productAllergies)
+     for (const [allergen, boolean] of entries) {
+       if (boolean) {
+         if (userAllergies[allergen]) {
+           allergic = true;
+         }
+       }
+     }
+     if (allergic) {
+       alert("Buhu you are allergic to " + data["navn"]);
+     } else {
+       alert("This is safe to eat")
+     }
+   }
+ }
+
 }
 
 const styles = StyleSheet.create({

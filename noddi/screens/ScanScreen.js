@@ -3,6 +3,7 @@ import { ScrollView, Text, View, StyleSheet, Button } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
 import { Constants, Permissions, BarCodeScanner } from 'expo';
 import {db} from '../db/db';
+import { AsyncStorage } from "react-native";
 
 export default class ScanScreen extends React.Component {
   static navigationOptions = {
@@ -12,28 +13,100 @@ export default class ScanScreen extends React.Component {
   state = {
     hasCameraPermission: null,
     scanned: false,
+    userAllergies: {
+      lactose: false,
+      gluten: false,
+    }
   };
+
+  componentWillMount() {
+    this.load()
+  }
 
   async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
   }
+
+  load = async () => {
+    try {
+      const allergies = await AsyncStorage.getItem('allergies')
+
+      if (allergies !== null) {
+        const storedAllergies = JSON.parse(allergies)
+        this.setState(prev => ({
+          ...prev,
+          userAllergies: storedAllergies,
+        }))
+      }
+    } catch (e) {
+      console.error('Failed to load name.')
+    }
+  }
+
+  asyncGetData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('allergies');
+      if (value !== null) {
+        data = JSON.parse(value)
+        console.log(data.gluten);
+        return data;
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  }
+
+  matchAllergies = (allergies) => {
+    const userAllergies = this.state.userAllergies;
+    const productAllergies = allergies;
+    const keys = Object.keys(productAllergies)
+    for (const key of keys) {
+      console.log(key)
+    }
+
+  }
+
   getFood = (data) => {
     const ref = db.ref('foods');
     let match = false;
+    let productAllergies = {};
+    let foodName = "";
+    const userAllergies = this.state.userAllergies;
 
     ref.once("value", function(snapshot) {
       snapshot.forEach(function (childSnap) {
         if(childSnap.key.toString() === data.toString()){
-          const foodName = childSnap.child("navn").val()
-          alert("Woho" + foodName + "matched");
+          foodName = childSnap.child("navn").val()
+          console.log(childSnap.child("allergies").val().lactose);
+          productAllergies = childSnap.child("allergies").val();
           match = true;
         }
       })
-      if (!match) {
+      if (match) {
+        console.log("match");
+        //this.matchAllergies(allergies);
+        let allergic = false;
+        const entries = Object.entries(productAllergies)
+        for (const [allergen, boolean] of entries) {
+          if (boolean) {
+            console.log("This have " + allergen);
+            console.log("User is allergic: " + userAllergies[allergen]);
+            if (userAllergies[allergen]) {
+              allergic = true;
+            }
+          }
+        }
+        if (allergic) {
+          alert("Buhu you are allergic to " + foodName);
+        }else {
+          alert("This is safe to eat")
+        }
+      } else {
         alert("No Match")
       }
     })
+
   }
 
   render() {

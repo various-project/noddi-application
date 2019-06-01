@@ -23,7 +23,7 @@ export default class HomeScreen extends React.Component {
   }
 
   handleFetch = async() => {
-    await fetch("http://10.0.0.4/api/foods/")
+    await fetch("http://10.0.0.4/api/foods/90433924")
     .then(response => response.json())
     .then((responseJson)=> {
       this.setState({

@@ -95,8 +95,6 @@ export default class ScanScreen extends React.Component {
  };
 
  matchAllergy = (data) => {
-
-   console.log("This is the response: " + data);
    if (data == null) {
      alert("No Match..")
    }else {
@@ -106,8 +104,6 @@ export default class ScanScreen extends React.Component {
      const entries = Object.entries(productAllergies)
      for (const [allergen, boolean] of entries) {
        if (boolean) {
-         console.log("This have " + allergen);
-         console.log("User is allergic: " + userAllergies[allergen]);
          if (userAllergies[allergen]) {
            allergic = true;
          }
@@ -115,7 +111,7 @@ export default class ScanScreen extends React.Component {
      }
      if (allergic) {
        alert("Buhu you are allergic to " + data["navn"]);
-     }else {
+     } else {
        alert("This is safe to eat")
      }
    }

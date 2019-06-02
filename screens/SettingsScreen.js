@@ -16,7 +16,7 @@ import { CustomSwitch } from '../components/AllergySwitch';
 
 export default class SettingsScreen extends React.Component {
   static navigationOptions = {
-    title: 'app.json'
+    header: null
   };
 
   state = {
@@ -126,7 +126,10 @@ export default class SettingsScreen extends React.Component {
       <View style={styles.container}>
         <ScrollView>
           <View>
-            <Text>This is Noddi!</Text>
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>Dine</Text>
+              <Text style={styles.title}>Allergier</Text>
+            </View>
             {this.state.allergieList
               .slice(0)
               .reverse()
@@ -152,8 +155,7 @@ export default class SettingsScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#82AD9A',
-    flexDirection: 'row'
+    backgroundColor: '#82AD9A'
   },
   allergyText: {
     fontSize: 17,
@@ -161,5 +163,19 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
     lineHeight: 24,
     textAlign: 'center'
+  },
+  titleContainer: {
+    fontSize: 64,
+    color: '#fff',
+    textAlign: 'left',
+    margin: 30
+  },
+  title: {
+    fontSize: 64,
+    color: '#fff',
+    textAlign: 'left',
+    margin: -5,
+    padding: 0,
+    fontWeight: '200'
   }
 });

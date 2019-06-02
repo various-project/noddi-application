@@ -7,10 +7,14 @@ import {
   View,
   Alert,
   StyleSheet,
-  Switch
+  Switch,
+  Button
 } from 'react-native';
 import { CustomSwitch } from './AllergySwitch';
 import { Ionicons } from '@expo/vector-icons';
+
+import Dimensions from 'Dimensions';
+const { width, height } = Dimensions.get('window');
 
 export class AllergyModal extends Component {
   state = {
@@ -31,10 +35,17 @@ export class AllergyModal extends Component {
         >
           <ScrollView>
             <View
-              style={{ marginTop: 22, backgroundColor: '#82AD9A', padding: 30 }}
+              style={{
+                marginTop: 22,
+                backgroundColor: '#82AD9A',
+                padding: 30,
+                minHeight: height,
+                flex: 1,
+                flexDirection: 'column'
+              }}
             >
               <View>
-                <Text>Hello World!</Text>
+                <Text style={styles.title}>Velg dine allergier</Text>
                 {this.props.allergieList
                   .slice(0)
                   .reverse()
@@ -46,17 +57,18 @@ export class AllergyModal extends Component {
                           this.props.handleChange(name, value)
                         }
                         value={this.props.allergies[name]}
+                        trackColor={{ false: '#fff', true: '#DBCFB0' }}
                       />
                     </View>
                   ))}
-                <TouchableHighlight
-                  onPress={() => {
-                    this.props.setModalVisible(!this.props.modalVisible);
-                  }}
-                >
-                  <Text>Hide Modal</Text>
-                </TouchableHighlight>
               </View>
+              <Button
+                onPress={() => {
+                  this.props.setModalVisible(!this.props.modalVisible);
+                }}
+                title="Lagre"
+                color="white"
+              />
             </View>
           </ScrollView>
         </Modal>
@@ -68,7 +80,8 @@ export class AllergyModal extends Component {
 const styles = StyleSheet.create({
   allergyContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginBottom: 2
   },
   allergyText: {
     fontSize: 22,
@@ -78,5 +91,13 @@ const styles = StyleSheet.create({
   },
   icon: {
     justifyContent: 'center'
+  },
+  title: {
+    fontSize: 30,
+    color: '#fff',
+    textAlign: 'center',
+    alignItems: 'center',
+    fontWeight: '300',
+    marginBottom: 15
   }
 });

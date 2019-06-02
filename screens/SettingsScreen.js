@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { ExpoConfigView } from '@expo/samples';
 import { AsyncStorage } from 'react-native';
+import { CustomSwitch } from '../components/AllergySwitch';
 
 export default class SettingsScreen extends React.Component {
   static navigationOptions = {
@@ -107,7 +108,7 @@ export default class SettingsScreen extends React.Component {
     }
   };
 
-  handleChange(key, value) {
+  handleChange = (key, value) => {
     this.setState(prev => ({
       ...prev,
       allergies: {
@@ -115,32 +116,27 @@ export default class SettingsScreen extends React.Component {
         [key]: value
       }
     }));
-  }
+  };
 
   render() {
     /* Go ahead and delete ExpoConfigView and replace it with your
      * content, we just wanted to give you a quick view of your config */
     // return <ExpoConfigView />;
     return (
-      <View>
+      <View style={styles.container}>
         <ScrollView>
           <View>
             <Text>This is Noddi!</Text>
-
-            <Text>
-              An application for analysing allergen's in food and drink.
-            </Text>
             {this.state.allergieList
               .slice(0)
               .reverse()
-              .map((keyName, i) => (
-                <View key={i}>
-                  <Text>{keyName}</Text>
-                  <Switch
-                    onValueChange={value => this.handleChange(keyName, value)}
-                    value={this.state.allergies[keyName]}
-                  />
-                </View>
+              .map((name, i) => (
+                <CustomSwitch
+                  key={i}
+                  name={name}
+                  value={this.state.allergies[name]}
+                  handleChange={this.handleChange}
+                />
               ))}
             <Button title={'Tap to save'} onPress={this.storeData} />
             <Text>
@@ -152,3 +148,18 @@ export default class SettingsScreen extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#82AD9A',
+    flexDirection: 'row'
+  },
+  allergyText: {
+    fontSize: 17,
+    color: 'rgba(96,100,109, 1)',
+    backgroundColor: 'red',
+    lineHeight: 24,
+    textAlign: 'center'
+  }
+});

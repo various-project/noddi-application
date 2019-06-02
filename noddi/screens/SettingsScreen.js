@@ -35,7 +35,23 @@ export default class SettingsScreen extends React.Component {
       sulfitter: false,
       svoveldioksid: false
     },
-    storage: ''
+    storage: '',
+    allergieList: [
+      'blotdyr',
+      'egg',
+      'fisk',
+      'gluten',
+      'melk',
+      'notter',
+      'peanotter',
+      'selleri',
+      'sennep',
+      'sesamfrø',
+      'skalldyr',
+      'soya',
+      'sulfitter',
+      'svoveldioksid'
+    ]
   };
 
   componentWillMount() {
@@ -114,7 +130,7 @@ export default class SettingsScreen extends React.Component {
             <Text>
               An application for analysing allergen's in food and drink.
             </Text>
-            {Object.keys(this.state.allergies)
+            {this.state.allergieList
               .slice(0)
               .reverse()
               .map((keyName, i) => (

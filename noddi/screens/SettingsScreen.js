@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Image,
   Platform,
@@ -9,13 +9,13 @@ import {
   View,
   Button,
   Switch
-} from "react-native";
-import { ExpoConfigView } from "@expo/samples";
-import { AsyncStorage } from "react-native";
+} from 'react-native';
+import { ExpoConfigView } from '@expo/samples';
+import { AsyncStorage } from 'react-native';
 
 export default class SettingsScreen extends React.Component {
   static navigationOptions = {
-    title: "app.json"
+    title: 'app.json'
   };
 
   state = {
@@ -23,7 +23,7 @@ export default class SettingsScreen extends React.Component {
       lactose: false,
       gluten: false
     },
-    storage: ""
+    storage: ''
   };
 
   componentWillMount() {
@@ -32,7 +32,7 @@ export default class SettingsScreen extends React.Component {
 
   load = async () => {
     try {
-      const allergies = await AsyncStorage.getItem("allergies");
+      const allergies = await AsyncStorage.getItem('allergies');
 
       if (allergies !== null) {
         const storedAllergies = JSON.parse(allergies);
@@ -42,24 +42,24 @@ export default class SettingsScreen extends React.Component {
         }));
       }
     } catch (e) {
-      console.error("Failed to load name.");
+      console.error('Failed to load name.');
     }
   };
 
   storeData = () => {
     this.asyncStoreData();
-    console.log("this");
+    console.log('this');
   };
 
   getData = () => {
     this.asyncGetData();
-    console.log("get");
+    console.log('get');
   };
 
   asyncStoreData = async () => {
     try {
       await AsyncStorage.setItem(
-        "allergies",
+        'allergies',
         JSON.stringify(this.state.allergies)
       );
     } catch (error) {
@@ -69,7 +69,7 @@ export default class SettingsScreen extends React.Component {
 
   asyncGetData = async () => {
     try {
-      const value = await AsyncStorage.getItem("allergies");
+      const value = await AsyncStorage.getItem('allergies');
       if (value !== null) {
         data = JSON.parse(value);
         console.log(data.gluten);
@@ -105,23 +105,23 @@ export default class SettingsScreen extends React.Component {
             </Text>
             <Text>Lactose</Text>
             <Switch
-              onValueChange={value => this.handleChange("lactose", value)}
+              onValueChange={value => this.handleChange('lactose', value)}
               value={this.state.allergies.lactose}
             />
 
             <Text>Gluten</Text>
             <Switch
-              onValueChange={value => this.handleChange("gluten", value)}
+              onValueChange={value => this.handleChange('gluten', value)}
               value={this.state.allergies.gluten}
             />
 
-            <Button title={"Tap to save"} onPress={this.storeData} />
-            <Button title={"Tap to save"} onPress={this.getData} />
+            <Button title={'Tap to save'} onPress={this.storeData} />
+            <Button title={'Tap to save'} onPress={this.getData} />
             <Text>
-              Lactose state: {this.state.allergies.lactose ? "Sant" : "Usant"}
+              Lactose state: {this.state.allergies.lactose ? 'Sant' : 'Usant'}
             </Text>
             <Text>
-              Gluten state: {this.state.allergies.gluten ? "Sant" : "Usant"}
+              Gluten state: {this.state.allergies.gluten ? 'Sant' : 'Usant'}
             </Text>
           </View>
         </ScrollView>

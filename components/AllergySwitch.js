@@ -1,22 +1,27 @@
 import React from 'react';
-import { Text, Switch, View, StyleSheet, Platform } from 'react-native';
+import { Text, Switch, View, StyleSheet, Platform, Button } from 'react-native';
 import { MonoText } from '../components/StyledText';
+import { Ionicons } from '@expo/vector-icons';
 
 export class CustomSwitch extends React.Component {
   changeValue = value => {
     this.props.handleChange(this.props.name, value);
   };
 
+  handleClick = () => {
+    console.log('Test');
+  };
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.allergyText}>{this.props.name}</Text>
-        <Switch
-          value={this.props.value}
-          onValueChange={value =>
-            this.props.handleChange(this.props.name, value)
-          }
-          style={styles.getStartedText}
+        <Ionicons
+          name="ios-close"
+          size={42}
+          color="white"
+          onPress={() => this.props.removeAllergy(this.props.name)}
+          style={styles.icon}
         />
       </View>
     );
@@ -26,12 +31,18 @@ export class CustomSwitch extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    margin: 5,
+    alignItems: 'center'
   },
   allergyText: {
-    fontSize: 17,
+    fontSize: 22,
     color: '#fff',
-    lineHeight: 24,
-    textAlign: 'center'
+    textAlign: 'center',
+    alignItems: 'center'
+  },
+  icon: {
+    justifyContent: 'center'
   }
 });

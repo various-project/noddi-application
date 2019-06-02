@@ -20,10 +20,38 @@ export default class SettingsScreen extends React.Component {
 
   state = {
     allergies: {
-      lactose: false,
-      gluten: false
+      blotdyr: false,
+      egg: false,
+      fisk: false,
+      gluten: false,
+      melk: false,
+      notter: false,
+      peanotter: false,
+      selleri: false,
+      sennep: false,
+      sesamfrø: false,
+      skalldyr: false,
+      soya: false,
+      sulfitter: false,
+      svoveldioksid: false
     },
-    storage: ''
+    storage: '',
+    allergieList: [
+      'blotdyr',
+      'egg',
+      'fisk',
+      'gluten',
+      'melk',
+      'notter',
+      'peanotter',
+      'selleri',
+      'sennep',
+      'sesamfrø',
+      'skalldyr',
+      'soya',
+      'sulfitter',
+      'svoveldioksid'
+    ]
   };
 
   componentWillMount() {
@@ -80,7 +108,6 @@ export default class SettingsScreen extends React.Component {
   };
 
   handleChange(key, value) {
-    console.log(value);
     this.setState(prev => ({
       ...prev,
       allergies: {
@@ -103,23 +130,19 @@ export default class SettingsScreen extends React.Component {
             <Text>
               An application for analysing allergen's in food and drink.
             </Text>
-            <Text>Lactose</Text>
-            <Switch
-              onValueChange={value => this.handleChange('lactose', value)}
-              value={this.state.allergies.lactose}
-            />
-
-            <Text>Gluten</Text>
-            <Switch
-              onValueChange={value => this.handleChange('gluten', value)}
-              value={this.state.allergies.gluten}
-            />
-
+            {this.state.allergieList
+              .slice(0)
+              .reverse()
+              .map((keyName, i) => (
+                <View key={i}>
+                  <Text>{keyName}</Text>
+                  <Switch
+                    onValueChange={value => this.handleChange(keyName, value)}
+                    value={this.state.allergies[keyName]}
+                  />
+                </View>
+              ))}
             <Button title={'Tap to save'} onPress={this.storeData} />
-            <Button title={'Tap to save'} onPress={this.getData} />
-            <Text>
-              Lactose state: {this.state.allergies.lactose ? 'Sant' : 'Usant'}
-            </Text>
             <Text>
               Gluten state: {this.state.allergies.gluten ? 'Sant' : 'Usant'}
             </Text>

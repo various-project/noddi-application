@@ -14,8 +14,20 @@ export default class ScanScreen extends React.Component {
     hasCameraPermission: null,
     scanned: false,
     userAllergies: {
-      lactose: false,
-      gluten: false,
+      blotdyr : false,
+      egg : false,
+      fisk : false,
+      gluten : false,
+      melk : false,
+      notter : false,
+      peanotter : false,
+      selleri : false,
+      sennep : false,
+      sesamfrø : false,
+      skalldyr : false,
+      soya : false,
+      sulfitter : false,
+      svoveldioksid : false
     },
     data: {}
   };

@@ -13,6 +13,7 @@ import {
 import { ExpoConfigView } from '@expo/samples';
 import { AsyncStorage } from 'react-native';
 import { CustomSwitch } from '../components/AllergySwitch';
+import { AllergyModal } from '../components/AllergyModal';
 
 export default class SettingsScreen extends React.Component {
   static navigationOptions = {
@@ -52,7 +53,8 @@ export default class SettingsScreen extends React.Component {
       'soya',
       'sulfitter',
       'svoveldioksid'
-    ]
+    ],
+    modalVisible: false
   };
 
   componentWillMount() {
@@ -109,13 +111,60 @@ export default class SettingsScreen extends React.Component {
   };
 
   handleChange = (key, value) => {
-    this.setState(prev => ({
-      ...prev,
-      allergies: {
-        ...prev.allergies,
-        [key]: value
+    this.setState(
+      prev => ({
+        ...prev,
+        allergies: {
+          ...prev.allergies,
+          [key]: value
+        }
+      }),
+      () => {
+        this.asyncStoreData();
       }
-    }));
+    );
+  };
+
+  removeAllergy = key => {
+    this.setState(
+      prev => ({
+        ...prev,
+        allergies: {
+          ...prev.allergies,
+          [key]: false
+        }
+      }),
+      () => {
+        this.asyncStoreData();
+      }
+    );
+  };
+
+  addAllergy = key => {
+    this.setState(
+      prev => ({
+        ...prev,
+        allergies: {
+          ...prev.allergies,
+          [key]: true
+        }
+      }),
+      () => {
+        this.asyncStoreData();
+      }
+    );
+  };
+
+  getTrueAllergies = key => {
+    return this.state.allergies[key];
+  };
+
+  getFalseAllergies = key => {
+    return !this.state.allergies[key];
+  };
+
+  setModalVisible = visible => {
+    this.setState({ modalVisible: visible });
   };
 
   render() {
@@ -130,22 +179,33 @@ export default class SettingsScreen extends React.Component {
               <Text style={styles.title}>Dine</Text>
               <Text style={styles.title}>Allergier</Text>
             </View>
-            {this.state.allergieList
+            {Object.keys(this.state.allergies)
               .slice(0)
               .reverse()
+              .filter(this.getTrueAllergies)
               .map((name, i) => (
                 <CustomSwitch
                   key={i}
                   name={name}
                   value={this.state.allergies[name]}
                   handleChange={this.handleChange}
+                  removeAllergy={this.removeAllergy}
                 />
               ))}
-            <Button title={'Tap to save'} onPress={this.storeData} />
-            <Text>
-              Gluten state: {this.state.allergies.gluten ? 'Sant' : 'Usant'}
-            </Text>
+            <Button
+              color="#fff"
+              title={'Legg til allergier'}
+              onPress={() => this.setModalVisible(true)}
+            />
           </View>
+          <AllergyModal
+            modalVisible={this.state.modalVisible}
+            setModalVisible={this.setModalVisible}
+            allergies={this.state.allergies}
+            handleChange={this.handleChange}
+            removeAllergy={this.addAllergy}
+            allergieList={this.state.allergieList}
+          />
         </ScrollView>
       </View>
     );
@@ -155,7 +215,8 @@ export default class SettingsScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#82AD9A'
+    backgroundColor: '#82AD9A',
+    padding: 30
   },
   allergyText: {
     fontSize: 17,
@@ -168,13 +229,14 @@ const styles = StyleSheet.create({
     fontSize: 64,
     color: '#fff',
     textAlign: 'left',
-    margin: 30
+    marginBottom: 20
   },
   title: {
     fontSize: 64,
     color: '#fff',
     textAlign: 'left',
-    margin: -5,
+    margin: 0,
+    marginBottom: -10,
     padding: 0,
     fontWeight: '200'
   }

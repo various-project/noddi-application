@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 
-var Environment = require('./environment.js')
+var Environment = require('./environment.js');
 
 var firebaseConfig = {
   apiKey: Environment.API_KEY,

@@ -2,12 +2,12 @@ import React from 'react';
 import { ScrollView, Text, View, StyleSheet, Button } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
 import { Constants, Permissions, BarCodeScanner } from 'expo';
-import {db} from '../db/db';
-import { AsyncStorage } from "react-native";
+import { db } from '../db/db';
+import { AsyncStorage } from 'react-native';
 
 export default class ScanScreen extends React.Component {
   static navigationOptions = {
-    title: 'Scanner',
+    title: 'Scanner'
   };
 
   state = {
@@ -15,13 +15,13 @@ export default class ScanScreen extends React.Component {
     scanned: false,
     userAllergies: {
       lactose: false,
-      gluten: false,
+      gluten: false
     },
     data: {}
   };
 
   componentWillMount() {
-    this.load()
+    this.load();
   }
 
   async componentDidMount() {
@@ -31,30 +31,30 @@ export default class ScanScreen extends React.Component {
 
   load = async () => {
     try {
-      const allergies = await AsyncStorage.getItem('allergies')
+      const allergies = await AsyncStorage.getItem('allergies');
 
       if (allergies !== null) {
-        const storedAllergies = JSON.parse(allergies)
+        const storedAllergies = JSON.parse(allergies);
         this.setState(prev => ({
           ...prev,
-          userAllergies: storedAllergies,
-        }))
+          userAllergies: storedAllergies
+        }));
       }
     } catch (e) {
-      console.error('Failed to load name.')
+      console.error('Failed to load name.');
     }
-  }
+  };
 
-  getFood = async (data) => {
-    await fetch("http://10.0.0.4/api/foods/" + data)
-    .then(response => response.json())
-    .then((responseJson)=> {
-      this.setState({
-       data: responseJson
+  getFood = async data => {
+    await fetch('http://10.0.0.4/api/foods/' + data)
+      .then(response => response.json())
+      .then(responseJson => {
+        this.setState({
+          data: responseJson
+        });
       })
-    })
-    .catch(error=>console.log(error + "Husk og oppdatere ip"))
-  }
+      .catch(error => console.log(error + 'Husk og oppdatere ip'));
+  };
 
   render() {
     const { hasCameraPermission, scanned } = this.state;
@@ -66,11 +66,12 @@ export default class ScanScreen extends React.Component {
       return <Text>No access to camera</Text>;
     }
     return (
-        <View
+      <View
         style={{
           flex: 1,
-          justifyContent: 'flex-end',
-        }}>
+          justifyContent: 'flex-end'
+        }}
+      >
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
           style={StyleSheet.absoluteFillObject}
@@ -86,43 +87,41 @@ export default class ScanScreen extends React.Component {
     );
   }
   handleBarCodeScanned = async ({ type, data }) => {
-   this.setState({ scanned: true });
-   const barCode = data;
-   await this.getFood(barCode)
-   .then(this.load())
-   .then(() => this.matchAllergy(this.state.data))
+    this.setState({ scanned: true });
+    const barCode = data;
+    await this.getFood(barCode)
+      .then(this.load())
+      .then(() => this.matchAllergy(this.state.data));
+  };
 
- };
-
- matchAllergy = (data) => {
-   if (data == null) {
-     alert("No Match..")
-   }else {
-     let allergic = false;
-     const productAllergies = data["allergies"];
-     const userAllergies = this.state.userAllergies;
-     const entries = Object.entries(productAllergies)
-     for (const [allergen, boolean] of entries) {
-       if (boolean) {
-         if (userAllergies[allergen]) {
-           allergic = true;
-         }
-       }
-     }
-     if (allergic) {
-       alert("Buhu you are allergic to " + data["navn"]);
-     } else {
-       alert("This is safe to eat")
-     }
-   }
- }
-
+  matchAllergy = data => {
+    if (data == null) {
+      alert('No Match..');
+    } else {
+      let allergic = false;
+      const productAllergies = data['allergies'];
+      const userAllergies = this.state.userAllergies;
+      const entries = Object.entries(productAllergies);
+      for (const [allergen, boolean] of entries) {
+        if (boolean) {
+          if (userAllergies[allergen]) {
+            allergic = true;
+          }
+        }
+      }
+      if (allergic) {
+        alert('Buhu you are allergic to ' + data['navn']);
+      } else {
+        alert('This is safe to eat');
+      }
+    }
+  };
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 15,
-    backgroundColor: '#fff',
-  },
+    backgroundColor: '#fff'
+  }
 });

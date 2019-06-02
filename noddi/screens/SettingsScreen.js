@@ -92,7 +92,6 @@ export default class SettingsScreen extends React.Component {
   };
 
   handleChange(key, value) {
-    console.log(value);
     this.setState(prev => ({
       ...prev,
       allergies: {
@@ -115,76 +114,18 @@ export default class SettingsScreen extends React.Component {
             <Text>
               An application for analysing allergen's in food and drink.
             </Text>
-            <Text>Bløtdyr</Text>
-            <Switch
-              onValueChange={value => this.handleChange('blotdyr', value)}
-              value={this.state.allergies.blotdyr}
-            />
-            <Text>Egg</Text>
-            <Switch
-              onValueChange={value => this.handleChange('egg', value)}
-              value={this.state.allergies.egg}
-            />
-            <Text>Fisk</Text>
-            <Switch
-              onValueChange={value => this.handleChange('fisk', value)}
-              value={this.state.allergies.fisk}
-            />
-            <Text>Gluten</Text>
-            <Switch
-              onValueChange={value => this.handleChange('gluten', value)}
-              value={this.state.allergies.gluten}
-            />
-            <Text>Melk</Text>
-            <Switch
-              onValueChange={value => this.handleChange('melk', value)}
-              value={this.state.allergies.melk}
-            />
-            <Text>Nøtter</Text>
-            <Switch
-              onValueChange={value => this.handleChange('notter', value)}
-              value={this.state.allergies.notter}
-            />
-            <Text>Peanøtter</Text>
-            <Switch
-              onValueChange={value => this.handleChange('peanotter', value)}
-              value={this.state.allergies.peanotter}
-            />
-            <Text>Selleri</Text>
-            <Switch
-              onValueChange={value => this.handleChange('selleri', value)}
-              value={this.state.allergies.selleri}
-            />
-            <Text>Sennep</Text>
-            <Switch
-              onValueChange={value => this.handleChange('sennep', value)}
-              value={this.state.allergies.sennep}
-            />
-            <Text>Sesamfrø</Text>
-            <Switch
-              onValueChange={value => this.handleChange('sesamfrø', value)}
-              value={this.state.allergies.sesamfrø}
-            />
-            <Text>Skalldyr</Text>
-            <Switch
-              onValueChange={value => this.handleChange('skalldyr', value)}
-              value={this.state.allergies.skalldyr}
-            />
-            <Text>Soya</Text>
-            <Switch
-              onValueChange={value => this.handleChange('soya', value)}
-              value={this.state.allergies.soya}
-            />
-            <Text>Sulfitter</Text>
-            <Switch
-              onValueChange={value => this.handleChange('sulfitter', value)}
-              value={this.state.allergies.sulfitter}
-            />
-            <Text>Svoveldioksid</Text>
-            <Switch
-              onValueChange={value => this.handleChange('svoveldioksid', value)}
-              value={this.state.allergies.svoveldioksid}
-            />
+            {Object.keys(this.state.allergies)
+              .slice(0)
+              .reverse()
+              .map((keyName, i) => (
+                <View key={i}>
+                  <Text>{keyName}</Text>
+                  <Switch
+                    onValueChange={value => this.handleChange(keyName, value)}
+                    value={this.state.allergies[keyName]}
+                  />
+                </View>
+              ))}
             <Button title={'Tap to save'} onPress={this.storeData} />
             <Text>
               Gluten state: {this.state.allergies.gluten ? 'Sant' : 'Usant'}

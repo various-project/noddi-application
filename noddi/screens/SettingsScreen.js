@@ -11,84 +11,87 @@ import {
   Switch
 } from 'react-native';
 import { ExpoConfigView } from '@expo/samples';
-import { AsyncStorage } from "react-native"
+import { AsyncStorage } from 'react-native';
 
 export default class SettingsScreen extends React.Component {
   static navigationOptions = {
-    title: 'app.json',
+    title: 'app.json'
   };
 
   state = {
     allergies: {
-      blotdyr : false,
-      egg : false,
-      fisk : false,
-      gluten : false,
-      melk : false,
-      notter : false,
-      peanotter : false,
-      selleri : false,
-      sennep : false,
-      sesamfrø : false,
-      skalldyr : false,
-      soya : false,
-      sulfitter : false,
-      svoveldioksid : false
+      blotdyr: false,
+      egg: false,
+      fisk: false,
+      gluten: false,
+      melk: false,
+      notter: false,
+      peanotter: false,
+      selleri: false,
+      sennep: false,
+      sesamfrø: false,
+      skalldyr: false,
+      soya: false,
+      sulfitter: false,
+      svoveldioksid: false
     },
-    storage: "",
+    storage: ''
   };
 
   componentWillMount() {
-    this.load()
+    this.load();
   }
 
   load = async () => {
     try {
-      const allergies = await AsyncStorage.getItem('allergies')
+      const allergies = await AsyncStorage.getItem('allergies');
 
       if (allergies !== null) {
-        const storedAllergies = JSON.parse(allergies)
+        const storedAllergies = JSON.parse(allergies);
         this.setState(prev => ({
           ...prev,
-          allergies: storedAllergies,
-        }))
+          allergies: storedAllergies
+        }));
       }
     } catch (e) {
-      console.error('Failed to load name.')
+      console.error('Failed to load name.');
     }
-  }
+  };
 
   storeData = () => {
-    this.asyncStoreData()
-    console.log("this");
-  }
+    this.asyncStoreData();
+    console.log('this');
+  };
 
   getData = () => {
-    this.asyncGetData()
-    console.log("get");
-  }
+    this.asyncGetData();
+    console.log('get');
+  };
 
   asyncStoreData = async () => {
     try {
-      await AsyncStorage.setItem('allergies', JSON.stringify(this.state.allergies));
+      await AsyncStorage.setItem(
+        'allergies',
+        JSON.stringify(this.state.allergies)
+      );
     } catch (error) {
       // Error saving data
     }
-  }
+  };
 
   asyncGetData = async () => {
     try {
       const value = await AsyncStorage.getItem('allergies');
       if (value !== null) {
-        data = JSON.parse(value)
+        data = JSON.parse(value);
         console.log(data.gluten);
       }
     } catch (error) {
       // Error retrieving data
     }
-  }
+  };
 
-  handleChange (key, value){
+  handleChange(key, value) {
     console.log(value);
     this.setState(prev => ({
       ...prev,
@@ -96,7 +99,7 @@ export default class SettingsScreen extends React.Component {
         ...prev.allergies,
         [key]: value
       }
-    }))
+    }));
   }
 
   render() {
@@ -104,35 +107,91 @@ export default class SettingsScreen extends React.Component {
      * content, we just wanted to give you a quick view of your config */
     // return <ExpoConfigView />;
     return (
-      <View >
+      <View>
         <ScrollView>
-
           <View>
-            <Text >This is Noddi!</Text>
-
-            <Text >
-              An application for analysing allergen's in food and drink.
-            </Text>
-            <Text >
-              Lactose
-            <Switch onValueChange = {(value) => this.handleChange("lactose", value)} value = {this.state.allergies.lactose}/>
-            </Text>
+            <Text>This is Noddi!</Text>
 
             <Text>
-            Gluten
-            <Switch onValueChange = {(value) => this.handleChange("gluten", value)} value = {this.state.allergies.gluten}/>
+              An application for analysing allergen's in food and drink.
             </Text>
-            <Button
-              title={'Tap to save'}
-              onPress={this.storeData}
+            <Text>Bløtdyr</Text>
+            <Switch
+              onValueChange={value => this.handleChange('blotdyr', value)}
+              value={this.state.allergies.blotdyr}
             />
-            <Text >
-              Gluten state: {this.state.allergies.gluten?"Sant":"Usant"}
+            <Text>Egg</Text>
+            <Switch
+              onValueChange={value => this.handleChange('egg', value)}
+              value={this.state.allergies.egg}
+            />
+            <Text>Fisk</Text>
+            <Switch
+              onValueChange={value => this.handleChange('fisk', value)}
+              value={this.state.allergies.fisk}
+            />
+            <Text>Gluten</Text>
+            <Switch
+              onValueChange={value => this.handleChange('gluten', value)}
+              value={this.state.allergies.gluten}
+            />
+            <Text>Melk</Text>
+            <Switch
+              onValueChange={value => this.handleChange('melk', value)}
+              value={this.state.allergies.melk}
+            />
+            <Text>Nøtter</Text>
+            <Switch
+              onValueChange={value => this.handleChange('notter', value)}
+              value={this.state.allergies.notter}
+            />
+            <Text>Peanøtter</Text>
+            <Switch
+              onValueChange={value => this.handleChange('peanotter', value)}
+              value={this.state.allergies.peanotter}
+            />
+            <Text>Selleri</Text>
+            <Switch
+              onValueChange={value => this.handleChange('selleri', value)}
+              value={this.state.allergies.selleri}
+            />
+            <Text>Sennep</Text>
+            <Switch
+              onValueChange={value => this.handleChange('sennep', value)}
+              value={this.state.allergies.sennep}
+            />
+            <Text>Sesamfrø</Text>
+            <Switch
+              onValueChange={value => this.handleChange('sesamfrø', value)}
+              value={this.state.allergies.sesamfrø}
+            />
+            <Text>Skalldyr</Text>
+            <Switch
+              onValueChange={value => this.handleChange('skalldyr', value)}
+              value={this.state.allergies.skalldyr}
+            />
+            <Text>Soya</Text>
+            <Switch
+              onValueChange={value => this.handleChange('soya', value)}
+              value={this.state.allergies.soya}
+            />
+            <Text>Sulfitter</Text>
+            <Switch
+              onValueChange={value => this.handleChange('sulfitter', value)}
+              value={this.state.allergies.sulfitter}
+            />
+            <Text>Svoveldioksid</Text>
+            <Switch
+              onValueChange={value => this.handleChange('svoveldioksid', value)}
+              value={this.state.allergies.svoveldioksid}
+            />
+            <Button title={'Tap to save'} onPress={this.storeData} />
+            <Text>
+              Gluten state: {this.state.allergies.gluten ? 'Sant' : 'Usant'}
             </Text>
           </View>
         </ScrollView>
-
       </View>
-    )
+    );
   }
 }

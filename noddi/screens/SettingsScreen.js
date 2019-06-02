@@ -20,8 +20,20 @@ export default class SettingsScreen extends React.Component {
 
   state = {
     allergies: {
-      lactose: false,
-      gluten: false,
+      blotdyr : false,
+      egg : false,
+      fisk : false,
+      gluten : false,
+      melk : false,
+      notter : false,
+      peanotter : false,
+      selleri : false,
+      sennep : false,
+      sesamfrø : false,
+      skalldyr : false,
+      soya : false,
+      sulfitter : false,
+      svoveldioksid : false
     },
     storage: "",
   };
@@ -114,18 +126,10 @@ export default class SettingsScreen extends React.Component {
               title={'Tap to save'}
               onPress={this.storeData}
             />
-            <Button
-              title={'Tap to save'}
-              onPress={this.getData}
-            />
-            <Text >
-              Lactose state: {this.state.allergies.lactose?"Sant":"Usant"}
-            </Text>
             <Text >
               Gluten state: {this.state.allergies.gluten?"Sant":"Usant"}
             </Text>
           </View>
-
         </ScrollView>
 
       </View>

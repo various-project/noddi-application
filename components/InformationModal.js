@@ -68,14 +68,13 @@ export class InformationModal extends Component {
   };
 
   componentWillMount() {
-    AsyncStorage.clear();
     this.load();
   }
 
   load = async () => {
     try {
       const modalState = await AsyncStorage.getItem('modalVisible');
-      console.log(modalState);
+      console.log('state' + modalState);
       if (modalState !== null) {
         const modalVisible = JSON.parse(modalState);
         console.log(modalVisible);

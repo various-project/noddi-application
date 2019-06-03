@@ -174,7 +174,7 @@ export default class SettingsScreen extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <View>
+          <View style={styles.scrollView}>
             <View style={styles.titleContainer}>
               <Text style={styles.title}>Dine</Text>
               <Text style={styles.title}>Allergier</Text>
@@ -215,8 +215,7 @@ export default class SettingsScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#82AD9A',
-    padding: 30
+    backgroundColor: '#82AD9A'
   },
   allergyText: {
     fontSize: 17,
@@ -239,5 +238,8 @@ const styles = StyleSheet.create({
     marginBottom: -10,
     padding: 0,
     fontWeight: '200'
+  },
+  scrollView: {
+    padding: 30
   }
 });

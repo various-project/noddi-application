@@ -12,6 +12,7 @@ import {
 import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
+import { InformationModal } from '../components/InformationModal';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -84,6 +85,7 @@ export default class HomeScreen extends React.Component {
             </MonoText>
           </View>
         </View>
+        <InformationModal />
       </View>
     );
   }

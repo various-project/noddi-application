@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   View,
   Button,
-  Switch
+  Switch,
+  TouchableNativeFeedback
 } from 'react-native';
 import { ExpoConfigView } from '@expo/samples';
 import { AsyncStorage } from 'react-native';
@@ -192,11 +193,22 @@ export default class SettingsScreen extends React.Component {
                   removeAllergy={this.removeAllergy}
                 />
               ))}
-            <Button
-              color="#fff"
-              title={'Legg til allergier'}
-              onPress={() => this.setModalVisible(true)}
-            />
+            {Platform.OS == 'android' ? (
+              <TouchableNativeFeedback
+                onPress={() => this.setModalVisible(true)}
+                background={TouchableNativeFeedback.Ripple()}
+              >
+                <Text style={{ margin: 30, color: 'white' }}>
+                  Legg til allergier
+                </Text>
+              </TouchableNativeFeedback>
+            ) : (
+              <Button
+                color="#fff"
+                title={'Legg til allergier'}
+                onPress={() => this.setModalVisible(true)}
+              />
+            )}
           </View>
           <AllergyModal
             modalVisible={this.state.modalVisible}

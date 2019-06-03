@@ -8,7 +8,9 @@ import {
   Alert,
   StyleSheet,
   Switch,
-  Button
+  Button,
+  Platform,
+  TouchableNativeFeedback
 } from 'react-native';
 import { CustomSwitch } from './AllergySwitch';
 import { Ionicons } from '@expo/vector-icons';
@@ -62,13 +64,24 @@ export class AllergyModal extends Component {
                     </View>
                   ))}
               </View>
-              <Button
-                onPress={() => {
-                  this.props.setModalVisible(!this.props.modalVisible);
-                }}
-                title="Lagre"
-                color="white"
-              />
+              {Platform.OS == 'android' ? (
+                <TouchableNativeFeedback
+                  onPress={() => {
+                    this.props.setModalVisible(!this.props.modalVisible);
+                  }}
+                  background={TouchableNativeFeedback.Ripple()}
+                >
+                  <Text style={{ margin: 30, color: 'white' }}>Lagre</Text>
+                </TouchableNativeFeedback>
+              ) : (
+                <Button
+                  onPress={() => {
+                    this.props.setModalVisible(!this.props.modalVisible);
+                  }}
+                  title="Lagre"
+                  color="white"
+                />
+              )}
             </View>
           </ScrollView>
         </Modal>

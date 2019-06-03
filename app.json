@@ -11,7 +11,7 @@
     "splash": {
       "image": "./assets/images/newsplash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#D1F0B1"
+      "backgroundColor": "#82AD9A"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

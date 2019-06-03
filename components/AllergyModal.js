@@ -26,7 +26,7 @@ export class AllergyModal extends Component {
       <View style={{ marginTop: 22, backgroundColor: '#82AD9A' }}>
         <Modal
           animationType="slide"
-          transparent={false}
+          transparent={true}
           visible={this.props.modalVisible}
           onRequestClose={() => {
             Alert.alert('Modal has been closed.');

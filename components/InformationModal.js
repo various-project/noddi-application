@@ -9,7 +9,9 @@ import {
   StyleSheet,
   Switch,
   Button,
-  Animated
+  Animated,
+  AsyncStorage,
+  Image
 } from 'react-native';
 import { CustomSwitch } from './AllergySwitch';
 import { Ionicons } from '@expo/vector-icons';
@@ -23,6 +25,7 @@ const Screen = props => {
   return (
     <View style={styles.scrollPage}>
       <Animated.View style={[styles.screen, transitionAnimation(props.index)]}>
+        <Image style={{ width: 200, height: 200 }} source={props.image} />
         <Text style={styles.text}>{props.text}</Text>
       </Animated.View>
     </View>
@@ -59,9 +62,41 @@ const transitionAnimation = index => {
 
 export class InformationModal extends Component {
   state = {
-    modalVisible: true,
+    modalVisible: false,
     page: 1,
     offset: 0
+  };
+
+  componentWillMount() {
+    AsyncStorage.clear();
+    this.load();
+  }
+
+  load = async () => {
+    try {
+      const modalState = await AsyncStorage.getItem('modalVisible');
+      console.log(modalState);
+      if (modalState !== null) {
+        const modalVisible = JSON.parse(modalState);
+        console.log(modalVisible);
+        this.setState(prev => ({
+          ...prev,
+          modalVisible: modalVisible
+        }));
+      } else {
+        this.setModalVisible(true);
+      }
+    } catch (e) {
+      console.error('Failed to load name.');
+    }
+  };
+
+  asyncStoreData = async value => {
+    try {
+      await AsyncStorage.setItem('modalVisible', JSON.stringify(value));
+    } catch (error) {
+      // Error saving data
+    }
   };
 
   handlePageChange = e => {
@@ -73,9 +108,15 @@ export class InformationModal extends Component {
   };
 
   setModalVisible = value => {
-    this.setState({
-      modalVisible: value
-    });
+    console.log('To early');
+    this.setState(
+      () => ({
+        modalVisible: value
+      }),
+      () => {
+        this.asyncStoreData(value);
+      }
+    );
   };
 
   render() {
@@ -105,9 +146,21 @@ export class InformationModal extends Component {
             style={styles.scrollView}
             showsHorizontalScrollIndicator={false}
           >
-            <Screen text="Screen 1" index={0} />
-            <Screen text="Screen 2" index={1} />
-            <Screen text="Screen 3" index={2} />
+            <Screen
+              text="Dette er noddi, din nye handlehjelp"
+              index={0}
+              image={require('./../assets/images/undraw_empty_cart.png')}
+            />
+            <Screen
+              text="Velg dine allergier"
+              index={1}
+              image={require('./../assets/images/undraw_select.png')}
+            />
+            <Screen
+              text="Få vite om du kan spise maten"
+              index={2}
+              image={require('./../assets/images/undraw_order_confirmed.png')}
+            />
           </Animated.ScrollView>
           <PageIndicator page={this.state.page} offset={this.state.offset} />
         </Modal>
@@ -149,12 +202,14 @@ const styles = StyleSheet.create({
   },
   screen: {
     height: height - 140,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    padding: 20
   },
   text: {
-    fontSize: 45,
-    fontWeight: 'bold'
+    fontSize: 35,
+    fontWeight: '200',
+    textAlign: 'center'
   }
 });

@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   allergyContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 2
+    marginBottom: 5
   },
   allergyText: {
     fontSize: 22,

@@ -68,7 +68,10 @@ export default class ScanScreen extends React.Component {
 
   async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === 'granted' });
+    this.setState({
+      scanned: false,
+      hasCameraPermission: status === 'granted'
+    });
   }
 
   load = async () => {
@@ -98,7 +101,7 @@ export default class ScanScreen extends React.Component {
       .catch(error => console.log(error + 'Husk og oppdatere ip'));
   };
   updateLoading() {
-    this.setState({ loadingIsFinished: false });
+    this.setState({ loadingIsFinished: false, scanned: false });
   }
 
   render() {
@@ -138,13 +141,6 @@ export default class ScanScreen extends React.Component {
           onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
           style={StyleSheet.absoluteFillObject}
         />
-
-        {scanned && (
-          <Button
-            title={'Tap to Scan Again'}
-            onPress={() => this.setState({ scanned: false })}
-          />
-        )}
       </View>
     );
   }

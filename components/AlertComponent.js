@@ -6,9 +6,14 @@ import {
   Image,
   Animated,
   Easing,
-  TouchableOpacity
+  TouchableOpacity,
+  Dimensions
 } from 'react-native';
+import { Icon } from 'expo';
+
 import { BlurView } from 'expo';
+
+const { width, height } = Dimensions.get('window');
 
 export class AlertComponent extends React.Component {
   constructor(props) {
@@ -34,19 +39,11 @@ export class AlertComponent extends React.Component {
     this.runAnimation();
   }
   runAnimation() {
-    Animated.sequence([
-      Animated.timing(this.animatedValue, {
-        toValue: 1,
-        duration: 1000,
-        delay: 1000,
-        easing: Easing.ease
-      }),
-      Animated.timing(this.animatedValue2, {
-        toValue: 1,
-        duration: 500,
-        easing: Easing.ease
-      })
-    ]).start();
+    Animated.timing(this.animatedValue2, {
+      toValue: 1,
+      duration: 1000,
+      easing: Easing.ease
+    }).start();
   }
   changeImage() {
     if (this.props.allergyMatch) {
@@ -117,22 +114,9 @@ export class AlertComponent extends React.Component {
               <View style={styles.imageContainer}>
                 <Animated.Image
                   style={{
-                    height: 250,
-                    width: 250,
-                    transform: [
-                      {
-                        scaleX: this.animatedValue.interpolate({
-                          inputRange: [0, 1],
-                          outputRange: [1, 0.5]
-                        })
-                      },
-                      {
-                        scaleY: this.animatedValue.interpolate({
-                          inputRange: [0, 1],
-                          outputRange: [1, 0.5]
-                        })
-                      }
-                    ]
+                    height: width - 130,
+                    width: width - 130,
+                    opacity: this.animatedValue2
                   }}
                   resizeMode="cover"
                   source={this.state.imgUrl}
@@ -140,17 +124,25 @@ export class AlertComponent extends React.Component {
               </View>
               <Animated.View
                 style={{
-                  flex: 1,
+                  display: 'flex',
                   justifyContent: 'flex-start',
                   alignItems: 'center',
                   flexDirection: 'column',
                   width: '75%',
-                  marginTop: '15%',
+                  marginTop: '5%',
                   opacity: this.animatedValue2
                 }}
               >
                 {this.state.ready && this.renderComponent()}
               </Animated.View>
+              <View style={styles.informationBox}>
+                <Icon.MaterialIcons
+                  size={26}
+                  name={'touch-app'}
+                  color={'#DFDFDF'}
+                />
+                <Text style={styles.informationText}>Trykk for å scanne</Text>
+              </View>
             </View>
           </BlurView>
         </TouchableOpacity>
@@ -162,12 +154,14 @@ export class AlertComponent extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    zIndex: 1
+    zIndex: 1,
+    width: width,
+    height: height
   },
   content: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'space-around'
   },
   absoluteFill: {
     flex: 1,
@@ -187,7 +181,7 @@ const styles = StyleSheet.create({
     marginTop: '15%'
   },
   textBox: {
-    flex: 1,
+    display: 'flex',
     justifyContent: 'flex-start',
     alignItems: 'center',
     flexDirection: 'column',
@@ -195,14 +189,24 @@ const styles = StyleSheet.create({
     marginTop: '15%'
   },
   imageContainer: {
-    flex: 1,
+    display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    marginTop: 10
+    marginTop: 100
   },
   textInnerContainer: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  informationBox: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 30,
+    marginBottom: 10
+  },
+  informationText: {
+    color: '#DFDFDF'
   }
 });

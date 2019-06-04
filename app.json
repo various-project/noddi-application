@@ -1,10 +1,13 @@
 {
   "expo": {
-    "name": "Noddi",
-    "slug": "noddi",
+    "name": "Noddi-application",
+    "slug": "noddi-application",
     "privacy": "public",
     "sdkVersion": "32.0.0",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/newicon.png",
@@ -16,9 +19,13 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": "",
+    "githubUrl": "https://github.com/various-project/noddi-application"
   }
 }

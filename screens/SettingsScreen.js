@@ -174,7 +174,7 @@ export default class SettingsScreen extends React.Component {
     // return <ExpoConfigView />;
     return (
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView style={{ marginTop: 20 }}>
           <View style={styles.scrollView}>
             <View style={styles.titleContainer}>
               <Text style={styles.title}>Dine</Text>

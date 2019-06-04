@@ -38,7 +38,7 @@ export class AllergyModal extends Component {
           <ScrollView>
             <View
               style={{
-                marginTop: 22,
+                marginTop: 20,
                 backgroundColor: '#82AD9A',
                 padding: 30,
                 minHeight: height,

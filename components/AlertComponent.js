@@ -62,15 +62,8 @@ export class AlertComponent extends React.Component {
         <View>
           <Text style={styles.title}>Ikke spis!</Text>
           <Text style={styles.text}>
-            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
-              {this.props.foodObject['navn']}
-            </Text>{' '}
-            inneholder allergenet:{' '}
-            <Text
-              style={{ fontWeight: 'bold', fontSize: 20, color: '#AD8282' }}
-            >
-              {this.props.allergyType}
-            </Text>
+            {this.props.foodObject['navn']} inneholder allergenet:{' '}
+            {this.props.allergyType}
           </Text>
         </View>
       );
@@ -89,11 +82,8 @@ export class AlertComponent extends React.Component {
         <View>
           <Text style={styles.title}>Trygt produkt!</Text>
           <Text style={styles.text}>
-            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
-              {this.props.foodObject['navn']}
-            </Text>{' '}
-            inneholder ingen av dine registrerte allergier. Feil kan forekomme,
-            så dobbeltsjekk.
+            {this.props.foodObject['navn']} inneholder ingen av dine registrerte
+            allergier. Feil kan forekomme, så dobbeltsjekk.
           </Text>
         </View>
       );

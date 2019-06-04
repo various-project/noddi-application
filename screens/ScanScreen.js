@@ -13,6 +13,7 @@ import { db } from '../db/db';
 import { AsyncStorage } from 'react-native';
 
 import { AlertComponent } from '../components/AlertComponent';
+import { InformationModal } from '../components/InformationModal';
 
 import { YellowBox } from 'react-native';
 import _ from 'lodash';
@@ -141,6 +142,7 @@ export default class ScanScreen extends React.Component {
           onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
           style={StyleSheet.absoluteFillObject}
         />
+        <InformationModal />
       </View>
     );
   }

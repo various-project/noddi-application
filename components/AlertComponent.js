@@ -111,30 +111,32 @@ export class AlertComponent extends React.Component {
         >
           <BlurView tint="dark" intensity={60} style={styles.absoluteFill}>
             <View style={styles.content}>
-              <View style={styles.imageContainer}>
-                <Animated.Image
+              <View>
+                <View style={styles.imageContainer}>
+                  <Animated.Image
+                    style={{
+                      height: width - 130,
+                      width: width - 130,
+                      opacity: this.animatedValue2
+                    }}
+                    resizeMode="cover"
+                    source={this.state.imgUrl}
+                  />
+                </View>
+                <Animated.View
                   style={{
-                    height: width - 130,
-                    width: width - 130,
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    flexDirection: 'column',
+                    width: '75%',
+                    marginTop: '5%',
                     opacity: this.animatedValue2
                   }}
-                  resizeMode="cover"
-                  source={this.state.imgUrl}
-                />
+                >
+                  {this.state.ready && this.renderComponent()}
+                </Animated.View>
               </View>
-              <Animated.View
-                style={{
-                  display: 'flex',
-                  justifyContent: 'flex-start',
-                  alignItems: 'center',
-                  flexDirection: 'column',
-                  width: '75%',
-                  marginTop: '5%',
-                  opacity: this.animatedValue2
-                }}
-              >
-                {this.state.ready && this.renderComponent()}
-              </Animated.View>
               <View style={styles.informationBox}>
                 <Icon.MaterialIcons
                   size={26}
@@ -156,7 +158,7 @@ const styles = StyleSheet.create({
     flex: 1,
     zIndex: 1,
     width: width,
-    height: height
+    height: height - 40
   },
   content: {
     flex: 1,
@@ -192,7 +194,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    marginTop: 100
+    marginTop: 50
   },
   textInnerContainer: {
     display: 'flex',

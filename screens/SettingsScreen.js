@@ -198,9 +198,18 @@ export default class SettingsScreen extends React.Component {
                 onPress={() => this.setModalVisible(true)}
                 background={TouchableNativeFeedback.Ripple()}
               >
-                <Text style={{ margin: 30, color: 'white' }}>
-                  Legg til allergier
-                </Text>
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: 35
+                  }}
+                >
+                  <Text style={{ fontSize: 20, color: 'white' }}>
+                    Legg til allergier
+                  </Text>
+                </View>
               </TouchableNativeFeedback>
             ) : (
               <Button

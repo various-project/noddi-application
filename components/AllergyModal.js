@@ -71,7 +71,16 @@ export class AllergyModal extends Component {
                   }}
                   background={TouchableNativeFeedback.Ripple()}
                 >
-                  <Text style={{ margin: 30, color: 'white' }}>Lagre</Text>
+                  <View
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginTop: 20
+                    }}
+                  >
+                    <Text style={{ fontSize: 20, color: 'white' }}>Lagre</Text>
+                  </View>
                 </TouchableNativeFeedback>
               ) : (
                 <Button

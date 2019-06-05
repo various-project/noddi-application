@@ -20,6 +20,7 @@ import { AlertComponent } from '../components/AlertComponent';
 import SettingsScreen from './SettingsScreen';
 import { Ionicons } from '@expo/vector-icons';
 import { InformationModal } from '../components/InformationModal';
+import { Icon } from 'expo';
 
 import { YellowBox } from 'react-native';
 import _ from 'lodash';
@@ -191,6 +192,19 @@ export default class ScanScreen extends React.Component {
         >
           <SettingsScreen setSettingsVisible={this.setSettingsVisible} />
         </Modal>
+        {!this.state.scanned && (
+          <View style={styles.informationBox}>
+            <Icon.MaterialCommunityIcons
+              size={26}
+              name={'barcode-scan'}
+              color={'#DFDFDF'}
+            />
+            <Text style={styles.informationText}>
+              Plasser strekkoden i område for å scanne
+            </Text>
+          </View>
+        )}
+
         <InformationModal />
       </View>
     );
@@ -242,5 +256,15 @@ const styles = StyleSheet.create({
     top: 30,
     right: 20,
     zIndex: 2
+  },
+  informationBox: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 30,
+    marginBottom: 30
+  },
+  informationText: {
+    color: '#DFDFDF'
   }
 });

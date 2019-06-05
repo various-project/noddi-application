@@ -12,7 +12,8 @@ import {
   Animated,
   AsyncStorage,
   Image,
-  Platform
+  Platform,
+  TouchableNativeFeedback
 } from 'react-native';
 import { CustomSwitch } from './AllergySwitch';
 import { Ionicons } from '@expo/vector-icons';
@@ -31,7 +32,7 @@ const Screen = props => {
         {props.last ? (
           Platform.OS == 'android' ? (
             <TouchableNativeFeedback
-              onPress={() => this.setModalVisible(true)}
+              onPress={() => props.setModalVisible(false)}
               background={TouchableNativeFeedback.Ripple()}
             >
               <View
@@ -42,7 +43,7 @@ const Screen = props => {
                   marginTop: 35
                 }}
               >
-                <Text style={{ fontSize: 20, color: 'white' }}>
+                <Text style={{ fontSize: 20, color: 'black' }}>
                   Legg til allergier
                 </Text>
               </View>

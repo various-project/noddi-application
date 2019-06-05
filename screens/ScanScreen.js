@@ -7,7 +7,9 @@ import {
   Button,
   TouchableOpacity,
   Modal,
-  Platform
+  Platform,
+  Image,
+  Dimensions
 } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
 import { Constants, Permissions, BarCodeScanner } from 'expo';
@@ -29,6 +31,8 @@ console.warn = message => {
     _console.warn(message);
   }
 };
+
+const { width, height } = Dimensions.get('window');
 
 export default class ScanScreen extends React.Component {
   constructor(props) {
@@ -147,6 +151,18 @@ export default class ScanScreen extends React.Component {
             style={styles.icon}
           />
         </View>
+        <Image
+          style={{
+            width: 310,
+            height: 218,
+            zIndex: 2,
+            top: height / 2 - 109,
+            justifyContent: 'center',
+            position: 'absolute',
+            right: width / 2 - 155
+          }}
+          source={require('./../assets/images/barcode_area.png')}
+        />
         {loadingIsFinished && (
           <AlertComponent
             triggerClosing={this.updateLoading}
@@ -161,6 +177,7 @@ export default class ScanScreen extends React.Component {
           onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
           style={StyleSheet.absoluteFillObject}
         />
+
         <Modal
           animationType="slide"
           // transparent={true}

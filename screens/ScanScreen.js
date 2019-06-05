@@ -151,18 +151,21 @@ export default class ScanScreen extends React.Component {
             style={styles.icon}
           />
         </View>
-        <Image
-          style={{
-            width: 310,
-            height: 218,
-            zIndex: 2,
-            top: height / 2 - 109,
-            justifyContent: 'center',
-            position: 'absolute',
-            right: width / 2 - 155
-          }}
-          source={require('./../assets/images/barcode_area.png')}
-        />
+        {!this.state.scanned && (
+          <Image
+            style={{
+              width: 310,
+              height: 218,
+              zIndex: 2,
+              top: height / 2 - 109,
+              justifyContent: 'center',
+              position: 'absolute',
+              right: width / 2 - 155
+            }}
+            source={require('./../assets/images/barcode_area.png')}
+          />
+        )}
+
         {loadingIsFinished && (
           <AlertComponent
             triggerClosing={this.updateLoading}

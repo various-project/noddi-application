@@ -148,6 +148,12 @@ export class InformationModal extends Component {
     );
   };
 
+  closeModalOpenSetting = () => {
+    this.setModalVisible(false);
+    this.props.setSettingsVisible(true);
+    console.log('this');
+  };
+
   render() {
     return (
       <View>
@@ -159,7 +165,7 @@ export class InformationModal extends Component {
             Alert.alert('Modal has been closed.');
           }}
         >
-          <CloseIcon setModalVisible={this.setModalVisible} />
+          <CloseIcon setModalVisible={this.closeModalOpenSetting} />
           <Animated.ScrollView
             scrollEventThrottle={16}
             onScroll={Animated.event(
@@ -192,7 +198,7 @@ export class InformationModal extends Component {
               index={2}
               image={require('./../assets/images/undraw_order_confirmed.png')}
               last={true}
-              setModalVisible={this.setModalVisible}
+              setModalVisible={this.closeModalOpenSetting}
             />
           </Animated.ScrollView>
           <PageIndicator page={this.state.page} offset={this.state.offset} />

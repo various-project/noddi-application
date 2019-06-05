@@ -17,6 +17,7 @@ import { AsyncStorage } from 'react-native';
 import { AlertComponent } from '../components/AlertComponent';
 import SettingsScreen from './SettingsScreen';
 import { Ionicons } from '@expo/vector-icons';
+import { InformationModal } from '../components/InformationModal';
 
 import { YellowBox } from 'react-native';
 import _ from 'lodash';
@@ -170,6 +171,7 @@ export default class ScanScreen extends React.Component {
         >
           <SettingsScreen setSettingsVisible={this.setSettingsVisible} />
         </Modal>
+        <InformationModal />
       </View>
     );
   }

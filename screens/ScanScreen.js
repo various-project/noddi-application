@@ -5,7 +5,9 @@ import {
   View,
   StyleSheet,
   Button,
-  TouchableOpacity
+  TouchableOpacity,
+  Modal,
+  Platform
 } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
 import { Constants, Permissions, BarCodeScanner } from 'expo';
@@ -13,6 +15,9 @@ import { db } from '../db/db';
 import { AsyncStorage } from 'react-native';
 
 import { AlertComponent } from '../components/AlertComponent';
+import SettingsScreen from './SettingsScreen';
+import { Ionicons } from '@expo/vector-icons';
+import { InformationModal } from '../components/InformationModal';
 
 import { YellowBox } from 'react-native';
 import _ from 'lodash';
@@ -38,7 +43,7 @@ export default class ScanScreen extends React.Component {
   state = {
     hasCameraPermission: null,
     scanned: false,
-
+    settingsVisible: false,
     noMatch: false,
     allergyMatch: false,
     loadingIsFinished: false,
@@ -91,7 +96,7 @@ export default class ScanScreen extends React.Component {
   };
 
   getFood = async data => {
-    await fetch('http://192.168.1.6/api/foods/' + data)
+    await fetch('http://10.0.0.4/api/foods/' + data)
       .then(response => response.json())
       .then(responseJson => {
         this.setState({
@@ -103,6 +108,12 @@ export default class ScanScreen extends React.Component {
   updateLoading() {
     this.setState({ loadingIsFinished: false, scanned: false });
   }
+
+  setSettingsVisible = value => {
+    this.setState(() => ({
+      settingsVisible: value
+    }));
+  };
 
   render() {
     const {
@@ -127,6 +138,15 @@ export default class ScanScreen extends React.Component {
           justifyContent: 'flex-end'
         }}
       >
+        <View style={styles.iconContainer}>
+          <Ionicons
+            name={Platform.OS === 'ios' ? 'ios-contact' : 'md-contact'}
+            size={42}
+            color="white"
+            onPress={() => this.setSettingsVisible(true)}
+            style={styles.icon}
+          />
+        </View>
         {loadingIsFinished && (
           <AlertComponent
             triggerClosing={this.updateLoading}
@@ -141,6 +161,17 @@ export default class ScanScreen extends React.Component {
           onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
           style={StyleSheet.absoluteFillObject}
         />
+        <Modal
+          animationType="slide"
+          // transparent={true}
+          visible={this.state.settingsVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+          }}
+        >
+          <SettingsScreen setSettingsVisible={this.setSettingsVisible} />
+        </Modal>
+        <InformationModal />
       </View>
     );
   }
@@ -184,5 +215,12 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 15,
     backgroundColor: '#fff'
+  },
+  iconContainer: {
+    flex: 1,
+    position: 'absolute',
+    top: 30,
+    right: 20,
+    zIndex: 2
   }
 });

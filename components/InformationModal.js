@@ -32,7 +32,7 @@ const Screen = props => {
         {props.last ? (
           Platform.OS == 'android' ? (
             <TouchableNativeFeedback
-              onPress={() => props.setModalVisible(false)}
+              onPress={() => props.setModalVisible()}
               background={TouchableNativeFeedback.Ripple()}
             >
               <View
@@ -52,7 +52,7 @@ const Screen = props => {
             <Button
               color="#000"
               title={'Klikk her for å komme igang'}
-              onPress={() => props.setModalVisible(false)}
+              onPress={() => props.setModalVisible()}
             />
           )
         ) : (

@@ -11,7 +11,9 @@ import {
   Button,
   Animated,
   AsyncStorage,
-  Image
+  Image,
+  Platform,
+  TouchableNativeFeedback
 } from 'react-native';
 import { CustomSwitch } from './AllergySwitch';
 import { Ionicons } from '@expo/vector-icons';
@@ -27,6 +29,35 @@ const Screen = props => {
       <Animated.View style={[styles.screen, transitionAnimation(props.index)]}>
         <Image style={{ width: 200, height: 200 }} source={props.image} />
         <Text style={styles.text}>{props.text}</Text>
+        {props.last ? (
+          Platform.OS == 'android' ? (
+            <TouchableNativeFeedback
+              onPress={() => props.setModalVisible()}
+              background={TouchableNativeFeedback.Ripple()}
+            >
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: 35
+                }}
+              >
+                <Text style={{ fontSize: 20, color: 'black' }}>
+                  Klikk her for å komme i gang
+                </Text>
+              </View>
+            </TouchableNativeFeedback>
+          ) : (
+            <Button
+              color="#000"
+              title={'Klikk her for å komme i gang'}
+              onPress={() => props.setModalVisible()}
+            />
+          )
+        ) : (
+          <View />
+        )}
       </Animated.View>
     </View>
   );
@@ -118,6 +149,12 @@ export class InformationModal extends Component {
     );
   };
 
+  closeModalOpenSetting = () => {
+    this.setModalVisible(false);
+    this.props.setSettingsVisible(true);
+    console.log('this');
+  };
+
   render() {
     return (
       <View>
@@ -129,7 +166,7 @@ export class InformationModal extends Component {
             Alert.alert('Modal has been closed.');
           }}
         >
-          <CloseIcon setModalVisible={this.setModalVisible} />
+          <CloseIcon setModalVisible={this.closeModalOpenSetting} />
           <Animated.ScrollView
             scrollEventThrottle={16}
             onScroll={Animated.event(
@@ -149,16 +186,20 @@ export class InformationModal extends Component {
               text="Dette er noddi, din nye handlehjelp"
               index={0}
               image={require('./../assets/images/undraw_empty_cart.png')}
+              last={false}
             />
             <Screen
               text="Velg dine allergier"
               index={1}
               image={require('./../assets/images/undraw_select.png')}
+              last={false}
             />
             <Screen
               text="Få vite om du kan spise maten"
               index={2}
               image={require('./../assets/images/undraw_order_confirmed.png')}
+              last={true}
+              setModalVisible={this.closeModalOpenSetting}
             />
           </Animated.ScrollView>
           <PageIndicator page={this.state.page} offset={this.state.offset} />

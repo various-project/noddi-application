@@ -44,14 +44,14 @@ const Screen = props => {
                 }}
               >
                 <Text style={{ fontSize: 20, color: 'black' }}>
-                  Legg til allergier
+                  Klikk her for å komme i gang
                 </Text>
               </View>
             </TouchableNativeFeedback>
           ) : (
             <Button
               color="#000"
-              title={'Klikk her for å komme igang'}
+              title={'Klikk her for å komme i gang'}
               onPress={() => props.setModalVisible()}
             />
           )

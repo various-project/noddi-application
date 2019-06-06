@@ -15,6 +15,7 @@ import { ExpoConfigView } from '@expo/samples';
 import { AsyncStorage } from 'react-native';
 import { CustomSwitch } from '../components/AllergySwitch';
 import { AllergyModal } from '../components/AllergyModal';
+import { Ionicons } from '@expo/vector-icons';
 
 export default class SettingsScreen extends React.Component {
   static navigationOptions = {
@@ -176,6 +177,15 @@ export default class SettingsScreen extends React.Component {
       <View style={styles.container}>
         <ScrollView style={{ marginTop: 20 }}>
           <View style={styles.scrollView}>
+            <View style={styles.iconContainer}>
+              <Ionicons
+                name="ios-close"
+                size={52}
+                color="white"
+                onPress={() => this.props.setSettingsVisible(false)}
+                style={styles.icon}
+              />
+            </View>
             <View style={styles.titleContainer}>
               <Text style={styles.title}>Dine</Text>
               <Text style={styles.title}>Allergier</Text>
@@ -262,5 +272,10 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     padding: 30
+  },
+  iconContainer: {
+    flex: 1,
+    position: 'absolute',
+    right: 30
   }
 });

@@ -13,6 +13,7 @@ import { ExpoLinksView } from '@expo/samples';
 import { Constants, Permissions, BarCodeScanner } from 'expo';
 import { db } from '../db/db';
 import { AsyncStorage } from 'react-native';
+import { Loader } from '../components/Loader';
 
 import { AlertComponent } from '../components/AlertComponent';
 import SettingsScreen from './SettingsScreen';
@@ -47,6 +48,7 @@ export default class ScanScreen extends React.Component {
     noMatch: false,
     allergyMatch: false,
     loadingIsFinished: false,
+    loading: false,
     allergyType: '',
     userAllergies: {
       blotdyr: false,
@@ -96,7 +98,7 @@ export default class ScanScreen extends React.Component {
   };
 
   getFood = async data => {
-    await fetch('http://10.0.0.4/api/foods/' + data)
+    await fetch('http://192.168.1.17/api/foods/' + data)
       .then(response => response.json())
       .then(responseJson => {
         this.setState({
@@ -123,7 +125,8 @@ export default class ScanScreen extends React.Component {
       data,
       loadingIsFinished,
       allergyMatch,
-      allergyType
+      allergyType,
+      loading
     } = this.state;
     if (hasCameraPermission === null) {
       return <Text>Requesting for camera permission</Text>;
@@ -157,6 +160,8 @@ export default class ScanScreen extends React.Component {
             allergyType={allergyType}
           />
         )}
+        {loading && <Loader />}
+
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
           style={StyleSheet.absoluteFillObject}
@@ -176,7 +181,7 @@ export default class ScanScreen extends React.Component {
     );
   }
   handleBarCodeScanned = async ({ type, data }) => {
-    this.setState({ scanned: true });
+    this.setState({ scanned: true, loading: true });
     const barCode = data;
     await this.getFood(barCode)
       .then(this.load())
@@ -206,7 +211,7 @@ export default class ScanScreen extends React.Component {
         this.setState({ allergyMatch: false, noMatch: false });
       }
     }
-    this.setState({ loadingIsFinished: true });
+    this.setState({ loadingIsFinished: true, loading: false });
   };
 }
 

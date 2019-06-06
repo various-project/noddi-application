@@ -99,7 +99,7 @@ export class AlertComponent extends React.Component {
           style={{ flex: 1 }}
           onPress={this.props.triggerClosing}
         >
-          <BlurView tint="dark" intensity={60} style={styles.absoluteFill}>
+          <BlurView tint="dark" intensity={100} style={styles.absoluteFill}>
             <View style={styles.content}>
               <View>
                 <View style={styles.imageContainer}>

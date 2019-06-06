@@ -7,7 +7,9 @@ import {
   Button,
   TouchableOpacity,
   Modal,
-  Platform
+  Platform,
+  Image,
+  Dimensions
 } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
 import { Constants, Permissions, BarCodeScanner } from 'expo';
@@ -19,6 +21,7 @@ import { AlertComponent } from '../components/AlertComponent';
 import SettingsScreen from './SettingsScreen';
 import { Ionicons } from '@expo/vector-icons';
 import { InformationModal } from '../components/InformationModal';
+import { Icon } from 'expo';
 
 import { YellowBox } from 'react-native';
 import _ from 'lodash';
@@ -30,6 +33,8 @@ console.warn = message => {
     _console.warn(message);
   }
 };
+
+const { width, height } = Dimensions.get('window');
 
 export default class ScanScreen extends React.Component {
   constructor(props) {
@@ -98,7 +103,7 @@ export default class ScanScreen extends React.Component {
   };
 
   getFood = async data => {
-    await fetch('http://192.168.1.17/api/foods/' + data)
+    await fetch('http://10.0.0.4/api/foods/' + data)
       .then(response => response.json())
       .then(responseJson => {
         this.setState({
@@ -150,6 +155,21 @@ export default class ScanScreen extends React.Component {
             style={styles.icon}
           />
         </View>
+        {!this.state.scanned && (
+          <Image
+            style={{
+              width: 310,
+              height: 218,
+              zIndex: 2,
+              top: height / 2 - 109,
+              justifyContent: 'center',
+              position: 'absolute',
+              right: width / 2 - 155
+            }}
+            source={require('./../assets/images/barcode_area.png')}
+          />
+        )}
+
         {loadingIsFinished && (
           <AlertComponent
             triggerClosing={this.updateLoading}
@@ -166,6 +186,7 @@ export default class ScanScreen extends React.Component {
           onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
           style={StyleSheet.absoluteFillObject}
         />
+
         <Modal
           animationType="slide"
           // transparent={true}
@@ -176,6 +197,19 @@ export default class ScanScreen extends React.Component {
         >
           <SettingsScreen setSettingsVisible={this.setSettingsVisible} />
         </Modal>
+        {!this.state.scanned && (
+          <View style={styles.informationBox}>
+            <Icon.MaterialCommunityIcons
+              size={26}
+              name={'barcode-scan'}
+              color={'#DFDFDF'}
+            />
+            <Text style={styles.informationText}>
+              Plasser strekkoden i område for å scanne
+            </Text>
+          </View>
+        )}
+
         <InformationModal setSettingsVisible={this.setSettingsVisible} />
       </View>
     );
@@ -227,5 +261,15 @@ const styles = StyleSheet.create({
     top: 30,
     right: 20,
     zIndex: 2
+  },
+  informationBox: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 30,
+    marginBottom: 30
+  },
+  informationText: {
+    color: '#DFDFDF'
   }
 });

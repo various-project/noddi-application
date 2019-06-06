@@ -176,7 +176,7 @@ export default class ScanScreen extends React.Component {
         >
           <SettingsScreen setSettingsVisible={this.setSettingsVisible} />
         </Modal>
-        <InformationModal />
+        <InformationModal setSettingsVisible={this.setSettingsVisible} />
       </View>
     );
   }

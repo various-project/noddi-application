@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "husky": "^2.3.0",
-    "lint-staged": "^8.1.7",
+    "lint-staged": "^13.1.0",
     "prettier": "^1.17.1",
     "@expo/samples": "2.1.1",
     "expo": "^32.0.0",
